@@ -265,15 +265,15 @@ require('lazy').setup({
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
+    -- opts = {
+    --   signs = {
+    --     add = { text = '+' },
+    --     change = { text = '~' },
+    --     delete = { text = '_' },
+    --     topdelete = { text = '‾' },
+    --     changedelete = { text = '~' },
+    --   },
+    -- },
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -952,9 +952,9 @@ require('lazy').setup({
 
       -- Load the colorscheme dynamically based on time of day
       if is_daytime then
-        vim.cmd.colorscheme 'kanagawa-paper-canvas' -- Light theme for daytime
+        vim.cmd.colorscheme 'kanagawa-paper' -- Light theme for daytime
       else
-        vim.cmd.colorscheme 'kanagawa-paper' -- Dark theme for nighttime
+        vim.cmd.colorscheme 'kanagawa-paper-ink' -- Dark theme for nighttime
       end
     end,
   },
@@ -1035,11 +1035,11 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
