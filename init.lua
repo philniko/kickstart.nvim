@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -873,20 +873,84 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    'thesimonho/kanagawa-paper.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
+      require('kanagawa-paper').setup {
+        -- enable undercurls for underlined text
+        undercurl = true,
+        -- transparent background
+        transparent = false,
+        -- highlight background for the left gutter
+        gutter = false,
+        -- background for diagnostic virtual text
+        diag_background = true,
+        -- dim inactive windows. Disabled when transparent
+        dim_inactive = false,
+        -- set colors for terminal buffers
+        terminal_colors = true,
+        -- cache highlights and colors for faster startup.
+        -- see Cache section for more details.
+        cache = false,
+
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          -- style for comments
+          comment = { italic = true },
+          -- style for functions
+          functions = { italic = false },
+          -- style for keywords
+          keyword = { italic = false, bold = false },
+          -- style for statements
+          statement = { italic = false, bold = false },
+          -- style for types
+          type = { italic = false },
+        },
+        -- override default palette and theme colors
+        colors = {
+          palette = {},
+          theme = {
+            ink = {},
+            canvas = {},
+          },
+        },
+        -- adjust overall color balance for each theme [-1, 1]
+        color_offset = {
+          ink = { brightness = 0, saturation = 0 },
+          canvas = { brightness = 0, saturation = 0 },
+        },
+        -- override highlight groups
+        overrides = function(colors)
+          return {}
+        end,
+
+        -- uses lazy.nvim, if installed, to automatically enable needed plugins
+        auto_plugins = true,
+        -- enable highlights for all plugins (disabled if using lazy.nvim)
+        all_plugins = package.loaded.lazy == nil,
+        -- manually enable/disable individual plugins.
+        -- check the `groups/plugins` directory for the exact names
+        plugins = {
+          -- examples:
+          -- rainbow_delimiters = true
+          -- which_key = false
+        },
+
+        -- enable integrations with other applications
+        integrations = {
+          -- automatically set wezterm theme to match the current neovim theme
+          wezterm = {
+            enabled = true,
+            -- neovim will write the theme name to this file
+            -- wezterm will read from this file to know which theme to use
+            path = (os.getenv 'TEMP' or '/tmp') .. '/nvim-theme',
+          },
         },
       }
 
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'kanagawa-paper-ink'
     end,
   },
 
@@ -969,14 +1033,14 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
