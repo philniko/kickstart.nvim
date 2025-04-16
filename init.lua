@@ -876,11 +876,14 @@ require('lazy').setup({
     'thesimonho/kanagawa-paper.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
+      -- check current time and set appropriate background
+      local hour = os.date('*t').hour
+      local is_daytime = (hour >= 7 and hour < 19)
       require('kanagawa-paper').setup {
         -- enable undercurls for underlined text
         undercurl = true,
         -- transparent background
-        transparent = false,
+        transparent = true,
         -- highlight background for the left gutter
         gutter = false,
         -- background for diagnostic virtual text
@@ -947,10 +950,12 @@ require('lazy').setup({
         },
       }
 
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'kanagawa-paper-ink'
+      -- Load the colorscheme dynamically based on time of day
+      if is_daytime then
+        vim.cmd.colorscheme 'kanagawa-paper-canvas' -- Light theme for daytime
+      else
+        vim.cmd.colorscheme 'kanagawa-paper' -- Dark theme for nighttime
+      end
     end,
   },
 
